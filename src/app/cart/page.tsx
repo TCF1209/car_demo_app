@@ -1,0 +1,115 @@
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { useApp } from "@/lib/context";
+import { t } from "@/data/translations";
+import { formatPrice } from "@/lib/utils";
+
+export default function CartPage() {
+  const { lang, cartItems, updateQuantity, removeItem, totalPrice } = useApp();
+
+  if (cartItems.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex flex-col items-center justify-center px-6 py-20 text-center"
+      >
+        <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
+          <ShoppingBag size={36} className="text-gray-300" />
+        </div>
+        <h2 className="font-display text-lg font-bold text-gray-800">
+          {t.emptyCart[lang]}
+        </h2>
+        <p className="mt-1 text-sm text-gray-400">{t.emptyCartDesc[lang]}</p>
+        <Link
+          href="/products"
+          className="mt-6 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/25 active:scale-95"
+        >
+          {t.continueShopping[lang]}
+        </Link>
+      </motion.div>
+    );
+  }
+
+  return (
+    <div className="px-4 py-4">
+      <h1 className="mb-4 font-display text-xl font-bold text-gray-900">
+        {t.cart[lang]}
+      </h1>
+
+      <AnimatePresence mode="popLayout">
+        {cartItems.map((item) => (
+          <motion.div
+            key={item.product.id}
+            layout
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="mb-3 flex items-center gap-3 rounded-2xl bg-secondary p-3"
+          >
+            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gray-200/60">
+              <ShoppingBag size={24} className="text-gray-400" />
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-800 truncate">
+                {item.product.name[lang]}
+              </p>
+              <p className="text-sm font-bold text-primary">
+                {formatPrice(item.product.price)}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-gray-600 active:scale-90"
+              >
+                <Minus size={14} />
+              </button>
+              <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
+              <button
+                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary active:scale-90"
+              >
+                <Plus size={14} />
+              </button>
+              <button
+                onClick={() => removeItem(item.product.id)}
+                className="ml-1 flex h-7 w-7 items-center justify-center rounded-full text-red-400 hover:bg-red-50 active:scale-90"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      {/* Summary */}
+      <div className="mt-4 rounded-2xl bg-secondary p-4 space-y-2">
+        <div className="flex justify-between text-sm text-gray-500">
+          <span>{t.subtotal[lang]}</span>
+          <span>{formatPrice(totalPrice)}</span>
+        </div>
+        <div className="flex justify-between text-sm text-gray-500">
+          <span>{t.tax[lang]}</span>
+          <span>{formatPrice(0)}</span>
+        </div>
+        <div className="border-t border-gray-200 pt-2 flex justify-between text-base font-bold text-gray-900">
+          <span>{t.total[lang]}</span>
+          <span>{formatPrice(totalPrice)}</span>
+        </div>
+      </div>
+
+      <Link
+        href="/checkout"
+        className="mt-4 block w-full rounded-xl bg-primary py-3 text-center text-sm font-bold text-white shadow-lg shadow-primary/25 transition-transform active:scale-[0.98]"
+      >
+        {t.proceedToCheckout[lang]}
+      </Link>
+    </div>
+  );
+}
