@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Info, Wrench } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import { Star, Info } from "lucide-react";
+import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
 import { mockUser, redemptionItems, transactions } from "@/data/mock";
@@ -58,7 +58,7 @@ export default function PointsPage() {
       </h2>
       <div className="grid grid-cols-2 gap-3">
         {redemptionItems.map((item, i) => {
-          const IconComp = (LucideIcons as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[item.icon] || Wrench;
+          const IconComp = getIcon(item.icon);
           const canRedeem = mockUser.points >= item.points;
           return (
             <motion.div

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Wrench, Star, Car, ChevronRight } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
 import { products } from "@/data/mock";
@@ -92,7 +92,7 @@ export default function HomePage() {
         </h2>
         <div className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar">
           {filtered.map((product, i) => {
-            const IconComp = (LucideIcons as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[product.icon] || Wrench;
+            const IconComp = getIcon(product.icon);
             return (
               <motion.div
                 key={product.id}
