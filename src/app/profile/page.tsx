@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { User, Phone, Calendar, Wallet, Star, Globe, LogOut } from "lucide-react";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
-import { mockUser, transactions } from "@/data/mock";
 import { formatPrice } from "@/lib/utils";
 
 export default function ProfilePage() {
-  const { lang, toggleLang } = useApp();
+  const { lang, toggleLang, user, transactions } = useApp();
   const router = useRouter();
 
   return (
@@ -25,17 +24,17 @@ export default function ProfilePage() {
             <User size={28} className="text-primary" />
           </div>
           <div>
-            <h2 className="font-display text-lg font-bold">{mockUser.name}</h2>
+            <h2 className="font-display text-lg font-bold">{user.name}</h2>
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <Phone size={12} />
-              <span>{mockUser.phone}</span>
+              <span>{user.phone}</span>
             </div>
           </div>
         </div>
         <div className="mt-4 flex items-center gap-1.5 text-xs text-gray-400">
           <Calendar size={12} />
           <span>
-            {t.memberSince[lang]} {mockUser.memberSince}
+            {t.memberSince[lang]} {user.memberSince}
           </span>
         </div>
       </motion.div>
@@ -53,7 +52,7 @@ export default function ProfilePage() {
             <span>{t.totalSpent[lang]}</span>
           </div>
           <p className="mt-1 font-display text-xl font-bold text-gray-900">
-            {formatPrice(mockUser.totalSpent)}
+            {formatPrice(user.totalSpent)}
           </p>
         </motion.div>
         <motion.div
@@ -67,7 +66,7 @@ export default function ProfilePage() {
             <span>{t.points[lang]}</span>
           </div>
           <p className="mt-1 font-display text-xl font-bold text-primary">
-            {mockUser.points.toLocaleString()}
+            {user.points.toLocaleString()}
           </p>
         </motion.div>
       </div>

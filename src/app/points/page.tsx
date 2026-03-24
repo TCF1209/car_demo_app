@@ -6,12 +6,12 @@ import { Star, Info } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
-import { mockUser, redemptionItems, transactions } from "@/data/mock";
+import { redemptionItems } from "@/data/mock";
 import { formatPrice } from "@/lib/utils";
 import { RedemptionItem } from "@/types";
 
 export default function PointsPage() {
-  const { lang } = useApp();
+  const { lang, user, transactions } = useApp();
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<RedemptionItem | null>(null);
   const [redeemed, setRedeemed] = useState(false);
@@ -37,10 +37,10 @@ export default function PointsPage() {
       >
         <p className="text-sm font-medium opacity-90">{t.yourPoints[lang]}</p>
         <div className="mt-1 flex items-baseline gap-2">
-          <span className="font-display text-4xl font-bold">{mockUser.points.toLocaleString()}</span>
+          <span className="font-display text-4xl font-bold">{user.points.toLocaleString()}</span>
           <Star size={20} className="opacity-80" fill="currentColor" />
         </div>
-        <p className="mt-1 text-xs opacity-75">{mockUser.name}</p>
+        <p className="mt-1 text-xs opacity-75">{user.name}</p>
       </motion.div>
 
       {/* How It Works */}
@@ -59,7 +59,7 @@ export default function PointsPage() {
       <div className="grid grid-cols-2 gap-3">
         {redemptionItems.map((item, i) => {
           const IconComp = getIcon(item.icon);
-          const canRedeem = mockUser.points >= item.points;
+          const canRedeem = user.points >= item.points;
           return (
             <motion.div
               key={item.id}

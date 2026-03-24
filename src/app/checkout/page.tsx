@@ -16,12 +16,11 @@ const paymentMethods = [
 ];
 
 export default function CheckoutPage() {
-  const { lang, cartItems, totalPrice, clearCart } = useApp();
+  const { lang, cartItems, totalPrice, placeOrder } = useApp();
   const router = useRouter();
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [showSuccess, setShowSuccess] = useState(false);
-
-  const pointsEarned = Math.floor(totalPrice);
+  const [earnedPoints, setEarnedPoints] = useState(0);
 
   if (cartItems.length === 0 && !showSuccess) {
     router.push("/cart");
@@ -29,8 +28,9 @@ export default function CheckoutPage() {
   }
 
   const handlePlaceOrder = () => {
+    const pts = placeOrder();
+    setEarnedPoints(pts);
     setShowSuccess(true);
-    clearCart();
   };
 
   return (
@@ -51,7 +51,7 @@ export default function CheckoutPage() {
             </h2>
             <p className="mt-2 text-sm text-gray-500">
               {t.pointsEarned[lang]}{" "}
-              <span className="font-bold text-primary">{pointsEarned}</span>{" "}
+              <span className="font-bold text-primary">{earnedPoints}</span>{" "}
               {t.pointsUnit[lang]} 🎉
             </p>
             <Link
