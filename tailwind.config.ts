@@ -10,8 +10,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        border: "hsl(var(--border))",
+        ring: "hsl(var(--ring))",
         primary: {
           DEFAULT: "#FF6B35",
+          foreground: "hsl(var(--primary-foreground))",
           50: "#FFF3ED",
           100: "#FFE4D4",
           200: "#FFC5A8",
@@ -25,6 +42,7 @@ const config: Config = {
         },
         secondary: {
           DEFAULT: "#F8F8F8",
+          foreground: "hsl(var(--secondary-foreground))",
           50: "#FFFFFF",
           100: "#F8F8F8",
           200: "#EFEFEF",
@@ -32,6 +50,11 @@ const config: Config = {
           400: "#BDBDBD",
           500: "#9E9E9E",
         },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
