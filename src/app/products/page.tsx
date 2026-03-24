@@ -80,6 +80,9 @@ export default function ProductsPage() {
               <span className="mt-1.5 text-sm font-bold text-primary">
                 {formatPrice(product.price)}
               </span>
+              <span className="text-[10px] text-amber-600">
+                ⭐ {t.earnPoints[lang]} {Math.floor(product.price)} {t.pts[lang]}
+              </span>
               <button
                 onClick={() => addItem(product)}
                 className="mt-2 rounded-lg bg-primary py-2 text-xs font-semibold text-white transition-all hover:bg-primary/90 active:scale-95"

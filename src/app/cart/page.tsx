@@ -98,6 +98,10 @@ export default function CartPage() {
           <span>{t.tax[lang]}</span>
           <span>{formatPrice(0)}</span>
         </div>
+        <div className="flex justify-between text-sm text-amber-600">
+          <span>⭐ {t.earnPoints[lang]}</span>
+          <span className="font-semibold">{Math.floor(totalPrice)} {t.pts[lang]}</span>
+        </div>
         <div className="border-t border-gray-200 pt-2 flex justify-between text-base font-bold text-gray-900">
           <span>{t.total[lang]}</span>
           <span>{formatPrice(totalPrice)}</span>
