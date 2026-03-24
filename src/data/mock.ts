@@ -140,7 +140,7 @@ export const redemptionItems: RedemptionItem[] = [
 export const transactions: Transaction[] = [
   {
     id: "t1",
-    date: "2024-12-15",
+    date: "2026-03-10",
     items: [
       { name: { en: "Basic Service Package", zh: "基本保养套餐" }, quantity: 1, price: 150 },
       { name: { en: "Air Filter", zh: "空气滤清器" }, quantity: 1, price: 45 },
@@ -150,7 +150,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "t2",
-    date: "2024-10-03",
+    date: "2026-02-14",
     items: [
       { name: { en: "Engine Oil (Castrol 5W-40)", zh: "机油 (Castrol 5W-40)" }, quantity: 2, price: 170 },
       { name: { en: "Wiper Blades (Pair)", zh: "雨刷片（一对）" }, quantity: 1, price: 38 },
@@ -160,7 +160,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "t3",
-    date: "2024-07-22",
+    date: "2026-01-18",
     items: [
       { name: { en: "Full Service Package", zh: "全面保养套餐" }, quantity: 1, price: 350 },
     ],
@@ -169,7 +169,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "t4",
-    date: "2024-04-10",
+    date: "2025-12-05",
     items: [
       { name: { en: "Car Battery (Amaron 55B24L)", zh: "汽车电池 (Amaron 55B24L)" }, quantity: 1, price: 280 },
       { name: { en: "AC Service & Gas Top-Up", zh: "空调保养及加冷气" }, quantity: 1, price: 180 },
