@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useCallback, ReactNode } fr
 import { useLanguage } from "@/hooks/useLanguage";
 import { useCart } from "@/hooks/useCart";
 import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage, RedemptionItem, Redemption } from "@/types";
-import { mockUser as initialUser, transactions as initialTransactions } from "@/data/mock";
+import { mockUser as initialUser, transactions as initialTransactions, mockRedemptions as initialRedemptions } from "@/data/mock";
 
 interface AppContextType {
   lang: Language;
@@ -36,7 +36,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([...initialTransactions]);
   const [purchasedPackages, setPurchasedPackages] = useState<PurchasedPackage[]>([]);
   const [cartPackages, setCartPackages] = useState<ServicePackage[]>([]);
-  const [redemptions, setRedemptions] = useState<Redemption[]>([]);
+  const [redemptions, setRedemptions] = useState<Redemption[]>([...initialRedemptions]);
 
   const addPackageToCart = useCallback((pkg: ServicePackage) => {
     setCartPackages((prev) => {

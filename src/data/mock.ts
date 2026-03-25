@@ -1,4 +1,4 @@
-import { User, Product, RedemptionItem, Transaction, ServicePackage } from "@/types";
+import { User, Product, RedemptionItem, Transaction, ServicePackage, Redemption } from "@/types";
 
 export const mockUser: User = {
   name: "Ahmad Razif",
@@ -134,6 +134,24 @@ export const redemptionItems: RedemptionItem[] = [
     name: { en: "Free Wiper Replacement", zh: "免费更换雨刷" },
     points: 400,
     icon: "Waves",
+  },
+];
+
+export const mockRedemptions: Redemption[] = [
+  {
+    id: "rd1",
+    date: "2026-03-22",
+    item: { id: "r1", name: { en: "Free Car Wash", zh: "免费洗车" }, points: 200, icon: "Sparkles" },
+  },
+  {
+    id: "rd2",
+    date: "2026-03-15",
+    item: { id: "r3", name: { en: "RM10 Voucher", zh: "RM10 优惠券" }, points: 300, icon: "Ticket" },
+  },
+  {
+    id: "rd3",
+    date: "2026-03-05",
+    item: { id: "r1", name: { en: "Free Car Wash", zh: "免费洗车" }, points: 200, icon: "Sparkles" },
   },
 ];
 
