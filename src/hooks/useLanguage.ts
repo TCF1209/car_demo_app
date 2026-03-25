@@ -4,14 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 import { Language } from "@/types";
 
 export function useLanguage() {
-  const [lang, setLang] = useState<Language>("zh");
+  const [lang, setLang] = useState<Language>("en");
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Language | null;
     if (stored === "en" || stored === "zh") {
       setLang(stored);
     } else {
-      localStorage.setItem("lang", "zh");
+      localStorage.setItem("lang", "en");
     }
   }, []);
 
