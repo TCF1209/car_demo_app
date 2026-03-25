@@ -10,6 +10,8 @@ export function useLanguage() {
     const stored = localStorage.getItem("lang") as Language | null;
     if (stored === "en" || stored === "zh") {
       setLang(stored);
+    } else {
+      localStorage.setItem("lang", "zh");
     }
   }, []);
 
