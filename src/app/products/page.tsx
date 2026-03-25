@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
@@ -80,8 +80,9 @@ export default function ProductsPage() {
               <span className="mt-1.5 text-sm font-bold text-primary">
                 {formatPrice(product.price)}
               </span>
-              <span className="text-[10px] text-amber-600">
-                ⭐ {t.earnPoints[lang]} {Math.floor(product.price)} {t.pts[lang]}
+              <span className="mt-0.5 inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold text-amber-600 w-fit">
+                <Sparkles size={9} />
+                +{Math.floor(product.price)} {t.pts[lang]}
               </span>
               <button
                 onClick={() => addItem(product)}

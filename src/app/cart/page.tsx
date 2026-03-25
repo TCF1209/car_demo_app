@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Sparkles } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
@@ -152,9 +152,11 @@ export default function CartPage() {
           <span>{t.tax[lang]}</span>
           <span>{formatPrice(0)}</span>
         </div>
-        <div className="flex justify-between text-sm text-amber-600">
-          <span>⭐ {t.earnPoints[lang]}</span>
-          <span className="font-semibold">{totalPoints} {t.pts[lang]}</span>
+        <div className="flex justify-between items-center">
+          <span className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-600">
+            <Sparkles size={12} />
+            {t.earnPoints[lang]} +{totalPoints} {t.pts[lang]}
+          </span>
         </div>
         <div className="border-t border-gray-200 pt-2 flex justify-between text-base font-bold text-gray-900">
           <span>{t.total[lang]}</span>
