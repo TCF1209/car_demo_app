@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useCart } from "@/hooks/useCart";
-import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage } from "@/types";
+import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage, RedemptionItem } from "@/types";
 import { mockUser as initialUser, transactions as initialTransactions } from "@/data/mock";
 
 interface AppContextType {
@@ -23,6 +23,7 @@ interface AppContextType {
   cartPackages: ServicePackage[];
   addPackageToCart: (pkg: ServicePackage) => void;
   removePackageFromCart: (pkgId: string) => void;
+  redeemPoints: (item: RedemptionItem) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -112,6 +113,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return totalPointsEarned;
   }, [items, totalPrice, cartPackages, combinedTotal, clearCart]);
 
+  const redeemPoints = useCallback((item: RedemptionItem) => {
+    setUser((prev) => ({
+      ...prev,
+      points: prev.points - item.points,
+    }));
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -131,6 +139,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         cartPackages,
         addPackageToCart,
         removePackageFromCart,
+        redeemPoints,
       }}
     >
       {children}

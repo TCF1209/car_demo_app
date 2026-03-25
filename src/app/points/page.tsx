@@ -11,7 +11,7 @@ import { formatPrice } from "@/lib/utils";
 import { RedemptionItem } from "@/types";
 
 export default function PointsPage() {
-  const { lang, user, transactions } = useApp();
+  const { lang, user, transactions, redeemPoints } = useApp();
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<RedemptionItem | null>(null);
   const [redeemed, setRedeemed] = useState(false);
@@ -23,6 +23,9 @@ export default function PointsPage() {
   };
 
   const confirmRedeem = () => {
+    if (selectedItem) {
+      redeemPoints(selectedItem);
+    }
     setRedeemed(true);
     setTimeout(() => setShowModal(false), 1500);
   };
