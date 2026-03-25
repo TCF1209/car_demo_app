@@ -71,6 +71,28 @@ export const t = {
   redeemed: { en: "Redeemed!", zh: "兑换成功！" },
   notEnoughPoints: { en: "Not enough points", zh: "积分不足" },
 
+  // Packages
+  packages: { en: "Packages", zh: "套餐" },
+  packagesTitle: { en: "Prepaid Packages", zh: "预付套餐" },
+  packagesSubtitle: { en: "Save more with bundled services — buy now, use anytime", zh: "套餐组合更优惠——现在购买，随时使用" },
+  whatsIncluded: { en: "What's Included", zh: "套餐内容" },
+  buyPackage: { en: "Buy Package", zh: "购买套餐" },
+  saveAmount: { en: "Save", zh: "省" },
+  bonusPoints: { en: "Bonus Points", zh: "额外积分" },
+  mostPopular: { en: "Most Popular", zh: "最受欢迎" },
+  bestValue: { en: "Best Value", zh: "最超值" },
+  confirmPurchase: { en: "Confirm Purchase", zh: "确认购买" },
+  confirmPurchaseMsg: { en: "Purchase this package for", zh: "确定要以" },
+  confirmPurchaseMsg2: { en: "?", zh: " 购买此套餐？" },
+  purchaseSuccess: { en: "Package Purchased!", zh: "套餐购买成功！" },
+  purchaseSuccessDesc: { en: "Your package is now active. Visit your profile to track usage.", zh: "套餐已激活。前往个人中心查看使用情况。" },
+  activePackages: { en: "Active Packages", zh: "我的套餐" },
+  remaining: { en: "remaining", zh: "剩余" },
+  used: { en: "used", zh: "已使用" },
+  noActivePackages: { en: "No active packages", zh: "暂无有效套餐" },
+  viewPackages: { en: "View Packages", zh: "浏览套餐" },
+  worthUp: { en: "Worth up to", zh: "价值高达" },
+
   // Profile
   memberSince: { en: "Member since", zh: "注册时间" },
   totalSpent: { en: "Total Spent", zh: "总消费" },

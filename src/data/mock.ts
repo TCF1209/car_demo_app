@@ -1,4 +1,4 @@
-import { User, Product, RedemptionItem, Transaction } from "@/types";
+import { User, Product, RedemptionItem, Transaction, ServicePackage } from "@/types";
 
 export const mockUser: User = {
   name: "Ahmad Razif",
@@ -176,5 +176,66 @@ export const transactions: Transaction[] = [
     ],
     total: 460,
     pointsEarned: 460,
+  },
+];
+
+export const servicePackages: ServicePackage[] = [
+  {
+    id: "pkg1",
+    name: { en: "Essential Care", zh: "基础护理套餐" },
+    description: {
+      en: "Perfect for regular maintenance — keep your car running smooth",
+      zh: "适合日常保养，让您的爱车保持最佳状态",
+    },
+    price: 388,
+    originalPrice: 495,
+    color: "from-blue-500 to-blue-600",
+    icon: "Shield",
+    includes: [
+      { name: { en: "Oil Change (Castrol 5W-40)", zh: "换机油 (Castrol 5W-40)" }, quantity: 3 },
+      { name: { en: "Car Wash", zh: "洗车" }, quantity: 3 },
+      { name: { en: "20-Point Inspection", zh: "20项检查" }, quantity: 3 },
+    ],
+    bonusPoints: 500,
+  },
+  {
+    id: "pkg2",
+    name: { en: "Full Protection", zh: "全面保护套餐" },
+    description: {
+      en: "Our most popular bundle — comprehensive care at great value",
+      zh: "最受欢迎的套餐——全面护理，超值之选",
+    },
+    price: 988,
+    originalPrice: 1390,
+    color: "from-primary to-orange-600",
+    icon: "ShieldCheck",
+    includes: [
+      { name: { en: "Full Service", zh: "全面保养" }, quantity: 4 },
+      { name: { en: "Car Wash", zh: "洗车" }, quantity: 6 },
+      { name: { en: "AC Service & Gas Top-Up", zh: "空调保养及加冷气" }, quantity: 2 },
+      { name: { en: "Tyre Rotation + Balancing", zh: "轮胎换位 + 平衡" }, quantity: 2 },
+    ],
+    bonusPoints: 1200,
+  },
+  {
+    id: "pkg3",
+    name: { en: "Ultimate", zh: "尊享套餐" },
+    description: {
+      en: "The complete package — everything your car needs for the whole year",
+      zh: "一年无忧——涵盖爱车所需的全部服务",
+    },
+    price: 1688,
+    originalPrice: 2480,
+    color: "from-violet-600 to-purple-700",
+    icon: "Crown",
+    includes: [
+      { name: { en: "Full Service", zh: "全面保养" }, quantity: 4 },
+      { name: { en: "Car Wash", zh: "洗车" }, quantity: 12 },
+      { name: { en: "AC Service & Gas Top-Up", zh: "空调保养及加冷气" }, quantity: 2 },
+      { name: { en: "Battery Replacement", zh: "更换电池" }, quantity: 1 },
+      { name: { en: "Brake Pads Replacement", zh: "更换刹车片" }, quantity: 1 },
+      { name: { en: "Tyre Rotation + Balancing", zh: "轮胎换位 + 平衡" }, quantity: 4 },
+    ],
+    bonusPoints: 2000,
   },
 ];

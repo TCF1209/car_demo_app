@@ -37,4 +37,23 @@ export interface Transaction {
   items: { name: { en: string; zh: string }; quantity: number; price: number }[];
   total: number;
   pointsEarned: number;
+  type?: "order" | "package";
+}
+
+export interface ServicePackage {
+  id: string;
+  name: { en: string; zh: string };
+  description: { en: string; zh: string };
+  price: number;
+  originalPrice: number;
+  color: string;
+  icon: string;
+  includes: { name: { en: string; zh: string }; quantity: number }[];
+  bonusPoints: number;
+}
+
+export interface PurchasedPackage {
+  pkg: ServicePackage;
+  purchaseDate: string;
+  remaining: { name: { en: string; zh: string }; total: number; used: number }[];
 }

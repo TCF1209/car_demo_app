@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useCart } from "@/hooks/useCart";
-import { Language, CartItem, Product, Transaction, User } from "@/types";
+import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage } from "@/types";
 import { mockUser as initialUser, transactions as initialTransactions } from "@/data/mock";
 
 interface AppContextType {
@@ -19,6 +19,8 @@ interface AppContextType {
   user: User;
   transactions: Transaction[];
   placeOrder: () => number;
+  purchasedPackages: PurchasedPackage[];
+  purchasePackage: (pkg: ServicePackage) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -28,6 +30,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const { items, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
   const [user, setUser] = useState<User>({ ...initialUser });
   const [transactions, setTransactions] = useState<Transaction[]>([...initialTransactions]);
+  const [purchasedPackages, setPurchasedPackages] = useState<PurchasedPackage[]>([]);
 
   const placeOrder = useCallback(() => {
     const pointsEarned = Math.floor(totalPrice);
@@ -56,6 +59,42 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return pointsEarned;
   }, [items, totalPrice, clearCart]);
 
+  const purchasePackage = useCallback((pkg: ServicePackage) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    const purchased: PurchasedPackage = {
+      pkg,
+      purchaseDate: today,
+      remaining: pkg.includes.map((item) => ({
+        name: item.name,
+        total: item.quantity,
+        used: 0,
+      })),
+    };
+
+    setPurchasedPackages((prev) => [purchased, ...prev]);
+
+    const newTransaction: Transaction = {
+      id: `t${Date.now()}`,
+      date: today,
+      items: pkg.includes.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: 0,
+      })),
+      total: pkg.price,
+      pointsEarned: pkg.bonusPoints,
+      type: "package",
+    };
+
+    setTransactions((prev) => [newTransaction, ...prev]);
+    setUser((prev) => ({
+      ...prev,
+      points: prev.points + pkg.bonusPoints,
+      totalSpent: prev.totalSpent + pkg.price,
+    }));
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -71,6 +110,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         user,
         transactions,
         placeOrder,
+        purchasedPackages,
+        purchasePackage,
       }}
     >
       {children}
