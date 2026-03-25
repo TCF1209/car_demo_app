@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useCart } from "@/hooks/useCart";
-import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage, RedemptionItem } from "@/types";
+import { Language, CartItem, Product, Transaction, User, ServicePackage, PurchasedPackage, RedemptionItem, Redemption } from "@/types";
 import { mockUser as initialUser, transactions as initialTransactions } from "@/data/mock";
 
 interface AppContextType {
@@ -24,6 +24,7 @@ interface AppContextType {
   addPackageToCart: (pkg: ServicePackage) => void;
   removePackageFromCart: (pkgId: string) => void;
   redeemPoints: (item: RedemptionItem) => void;
+  redemptions: Redemption[];
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -35,6 +36,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([...initialTransactions]);
   const [purchasedPackages, setPurchasedPackages] = useState<PurchasedPackage[]>([]);
   const [cartPackages, setCartPackages] = useState<ServicePackage[]>([]);
+  const [redemptions, setRedemptions] = useState<Redemption[]>([]);
 
   const addPackageToCart = useCallback((pkg: ServicePackage) => {
     setCartPackages((prev) => {
@@ -114,10 +116,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [items, totalPrice, cartPackages, combinedTotal, clearCart]);
 
   const redeemPoints = useCallback((item: RedemptionItem) => {
+    const today = new Date().toISOString().split("T")[0];
     setUser((prev) => ({
       ...prev,
       points: prev.points - item.points,
     }));
+    setRedemptions((prev) => [
+      { id: `r${Date.now()}`, date: today, item },
+      ...prev,
+    ]);
   }, []);
 
   return (
@@ -140,6 +147,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         addPackageToCart,
         removePackageFromCart,
         redeemPoints,
+        redemptions,
       }}
     >
       {children}

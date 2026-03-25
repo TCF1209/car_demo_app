@@ -7,11 +7,10 @@ import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
 import { redemptionItems } from "@/data/mock";
-import { formatPrice } from "@/lib/utils";
 import { RedemptionItem } from "@/types";
 
 export default function PointsPage() {
-  const { lang, user, transactions, redeemPoints } = useApp();
+  const { lang, user, redemptions, redeemPoints } = useApp();
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<RedemptionItem | null>(null);
   const [redeemed, setRedeemed] = useState(false);
@@ -94,28 +93,36 @@ export default function PointsPage() {
         })}
       </div>
 
-      {/* Transaction History */}
+      {/* Redemption History */}
       <h2 className="mt-6 mb-3 font-display text-lg font-bold text-gray-900">
-        {t.transactionHistory[lang]}
+        {t.redemptionHistory[lang]}
       </h2>
-      <div className="space-y-3">
-        {transactions.map((tx) => (
-          <div key={tx.id} className="rounded-2xl bg-secondary p-4">
-            <div className="flex justify-between text-xs text-gray-400">
-              <span>{tx.date}</span>
-              <span className="font-semibold text-green-600">
-                +{tx.pointsEarned} {t.pts[lang]}
-              </span>
-            </div>
-            {tx.items.map((item, j) => (
-              <p key={j} className="mt-1 text-sm text-gray-700">
-                {item.name[lang]} × {item.quantity}
-              </p>
-            ))}
-            <p className="mt-1 text-sm font-bold text-gray-900">{formatPrice(tx.total)}</p>
-          </div>
-        ))}
-      </div>
+      {redemptions.length === 0 ? (
+        <div className="rounded-2xl bg-secondary p-6 text-center">
+          <p className="text-sm text-gray-400">{t.noRedemptions[lang]}</p>
+          <p className="mt-0.5 text-xs text-gray-300">{t.noRedemptionsDesc[lang]}</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {redemptions.map((r) => {
+            const IconComp = getIcon(r.item.icon);
+            return (
+              <div key={r.id} className="flex items-center gap-3 rounded-2xl bg-secondary p-4">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <IconComp size={20} className="text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-800">{r.item.name[lang]}</p>
+                  <p className="text-xs text-gray-400">{r.date}</p>
+                </div>
+                <span className="text-sm font-bold text-red-500">
+                  −{r.item.points} {t.pts[lang]}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Redeem Modal */}
       <AnimatePresence>

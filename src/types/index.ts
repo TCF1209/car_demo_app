@@ -52,6 +52,12 @@ export interface ServicePackage {
   bonusPoints: number;
 }
 
+export interface Redemption {
+  id: string;
+  date: string;
+  item: RedemptionItem;
+}
+
 export interface PurchasedPackage {
   pkg: ServicePackage;
   purchaseDate: string;
