@@ -189,7 +189,7 @@ export const servicePackages: ServicePackage[] = [
     },
     price: 388,
     originalPrice: 495,
-    color: "from-blue-500 to-blue-600",
+    color: "linear-gradient(to right, #3b82f6, #2563eb)",
     icon: "Shield",
     includes: [
       { name: { en: "Oil Change (Castrol 5W-40)", zh: "换机油 (Castrol 5W-40)" }, quantity: 3 },
@@ -207,7 +207,7 @@ export const servicePackages: ServicePackage[] = [
     },
     price: 988,
     originalPrice: 1390,
-    color: "from-primary to-orange-600",
+    color: "linear-gradient(to right, #FF6B35, #ea580c)",
     icon: "ShieldCheck",
     includes: [
       { name: { en: "Full Service", zh: "全面保养" }, quantity: 4 },
@@ -226,7 +226,7 @@ export const servicePackages: ServicePackage[] = [
     },
     price: 1688,
     originalPrice: 2480,
-    color: "from-violet-600 to-purple-700",
+    color: "linear-gradient(to right, #7c3aed, #7e22ce)",
     icon: "Crown",
     includes: [
       { name: { en: "Full Service", zh: "全面保养" }, quantity: 4 },

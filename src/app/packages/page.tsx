@@ -64,7 +64,7 @@ export default function PackagesPage() {
             >
               {/* Badge */}
               {badge && (
-                <div className={`absolute right-3 top-3 z-10 rounded-full bg-gradient-to-r ${pkg.color} px-3 py-0.5`}>
+                <div className="absolute right-3 top-3 z-10 rounded-full px-3 py-0.5" style={{ background: pkg.color }}>
                   <span className="text-[10px] font-bold text-white">
                     {badge[lang]}
                   </span>
@@ -72,7 +72,7 @@ export default function PackagesPage() {
               )}
 
               {/* Gradient Header */}
-              <div className={`bg-gradient-to-r ${pkg.color} px-5 py-4`}>
+              <div className="px-5 py-4" style={{ background: pkg.color }}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/20">
                     <IconComp size={22} className="text-white" />
@@ -128,7 +128,8 @@ export default function PackagesPage() {
                 {/* Buy Button */}
                 <button
                   onClick={() => handleBuy(pkg)}
-                  className={`mt-4 w-full rounded-xl bg-gradient-to-r ${pkg.color} py-3 text-sm font-bold text-white shadow-md transition-transform active:scale-[0.98]`}
+                  className="mt-4 w-full rounded-xl py-3 text-sm font-bold text-white shadow-md transition-transform active:scale-[0.98]"
+                  style={{ background: pkg.color }}
                 >
                   {t.buyPackage[lang]} — {formatPrice(pkg.price)}
                 </button>
@@ -194,7 +195,8 @@ export default function PackagesPage() {
                     </button>
                     <button
                       onClick={confirmPurchase}
-                      className={`flex-1 rounded-xl bg-gradient-to-r ${selectedPkg.color} py-2.5 text-sm font-bold text-white active:scale-95`}
+                      className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white active:scale-95"
+                      style={{ background: selectedPkg.color }}
                     >
                       {t.confirm[lang]}
                     </button>
