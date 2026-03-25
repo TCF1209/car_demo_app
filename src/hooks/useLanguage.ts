@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Language } from "@/types";
 
 export function useLanguage() {
-  const [lang, setLang] = useState<Language>("en");
+  const [lang, setLang] = useState<Language>("zh");
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Language | null;
