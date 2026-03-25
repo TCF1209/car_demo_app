@@ -16,13 +16,15 @@ const paymentMethods = [
 ];
 
 export default function CheckoutPage() {
-  const { lang, cartItems, totalPrice, placeOrder } = useApp();
+  const { lang, cartItems, cartPackages, totalPrice, placeOrder } = useApp();
   const router = useRouter();
   const [selectedPayment, setSelectedPayment] = useState("card");
   const [showSuccess, setShowSuccess] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
 
-  if (cartItems.length === 0 && !showSuccess) {
+  const hasItems = cartItems.length > 0 || cartPackages.length > 0;
+
+  if (!hasItems && !showSuccess) {
     router.push("/cart");
     return null;
   }
@@ -82,6 +84,22 @@ export default function CheckoutPage() {
                   </span>
                   <span className="flex-shrink-0 font-medium">
                     {formatPrice(item.product.price * item.quantity)}
+                  </span>
+                </div>
+              ))}
+              {cartPackages.map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className="flex justify-between py-1.5 text-sm text-gray-600"
+                >
+                  <span className="truncate pr-2 flex items-center gap-1.5">
+                    {pkg.name[lang]}
+                    <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+                      {t.packages[lang]}
+                    </span>
+                  </span>
+                  <span className="flex-shrink-0 font-medium">
+                    {formatPrice(pkg.price)}
                   </span>
                 </div>
               ))}

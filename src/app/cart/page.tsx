@@ -3,14 +3,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
 import { formatPrice } from "@/lib/utils";
 
 export default function CartPage() {
-  const { lang, cartItems, updateQuantity, removeItem, totalPrice } = useApp();
+  const { lang, cartItems, cartPackages, updateQuantity, removeItem, removePackageFromCart, totalPrice } = useApp();
 
-  if (cartItems.length === 0) {
+  const hasItems = cartItems.length > 0 || cartPackages.length > 0;
+
+  if (!hasItems) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -34,12 +37,18 @@ export default function CartPage() {
     );
   }
 
+  const productTotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const productPoints = Math.floor(productTotal);
+  const packagePoints = cartPackages.reduce((sum, pkg) => sum + pkg.bonusPoints, 0);
+  const totalPoints = productPoints + packagePoints;
+
   return (
     <div className="px-4 py-4">
       <h1 className="mb-4 font-display text-xl font-bold text-gray-900">
         {t.cart[lang]}
       </h1>
 
+      {/* Product Items */}
       <AnimatePresence mode="popLayout">
         {cartItems.map((item) => (
           <motion.div
@@ -88,6 +97,51 @@ export default function CartPage() {
         ))}
       </AnimatePresence>
 
+      {/* Package Items */}
+      <AnimatePresence mode="popLayout">
+        {cartPackages.map((pkg) => {
+          const IconComp = getIcon(pkg.icon);
+          return (
+            <motion.div
+              key={pkg.id}
+              layout
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="mb-3 flex items-center gap-3 rounded-2xl bg-secondary p-3"
+            >
+              <div
+                className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl"
+                style={{ background: pkg.color }}
+              >
+                <IconComp size={24} className="text-white" />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-800 truncate">
+                  {pkg.name[lang]}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-primary">
+                    {formatPrice(pkg.price)}
+                  </span>
+                  <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+                    {t.packages[lang]}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => removePackageFromCart(pkg.id)}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-red-400 hover:bg-red-50 active:scale-90"
+              >
+                <Trash2 size={14} />
+              </button>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+
       {/* Summary */}
       <div className="mt-4 rounded-2xl bg-secondary p-4 space-y-2">
         <div className="flex justify-between text-sm text-gray-500">
@@ -100,7 +154,7 @@ export default function CartPage() {
         </div>
         <div className="flex justify-between text-sm text-amber-600">
           <span>⭐ {t.earnPoints[lang]}</span>
-          <span className="font-semibold">{Math.floor(totalPrice)} {t.pts[lang]}</span>
+          <span className="font-semibold">{totalPoints} {t.pts[lang]}</span>
         </div>
         <div className="border-t border-gray-200 pt-2 flex justify-between text-base font-bold text-gray-900">
           <span>{t.total[lang]}</span>

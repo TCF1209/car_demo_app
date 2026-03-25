@@ -2,32 +2,21 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, ShoppingCart } from "lucide-react";
 import { getIcon } from "@/lib/icons";
 import { useApp } from "@/lib/context";
 import { t } from "@/data/translations";
 import { servicePackages } from "@/data/mock";
 import { formatPrice } from "@/lib/utils";
-import { ServicePackage } from "@/types";
 
 export default function PackagesPage() {
-  const { lang, purchasePackage } = useApp();
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPkg, setSelectedPkg] = useState<ServicePackage | null>(null);
-  const [purchased, setPurchased] = useState(false);
+  const { lang, addPackageToCart, cartPackages } = useApp();
+  const [addedId, setAddedId] = useState<string | null>(null);
 
-  const handleBuy = (pkg: ServicePackage) => {
-    setSelectedPkg(pkg);
-    setPurchased(false);
-    setShowModal(true);
-  };
-
-  const confirmPurchase = () => {
-    if (selectedPkg) {
-      purchasePackage(selectedPkg);
-      setPurchased(true);
-      setTimeout(() => setShowModal(false), 2000);
-    }
+  const handleAdd = (pkg: typeof servicePackages[0]) => {
+    addPackageToCart(pkg);
+    setAddedId(pkg.id);
+    setTimeout(() => setAddedId(null), 1500);
   };
 
   return (
@@ -53,6 +42,8 @@ export default function PackagesPage() {
           const savings = pkg.originalPrice - pkg.price;
           const badge =
             pkg.id === "pkg2" ? t.mostPopular : pkg.id === "pkg3" ? t.bestValue : null;
+          const inCart = cartPackages.some((p) => p.id === pkg.id);
+          const justAdded = addedId === pkg.id;
 
           return (
             <motion.div
@@ -125,13 +116,37 @@ export default function PackagesPage() {
                   </div>
                 </div>
 
-                {/* Buy Button */}
+                {/* Add to Cart / In Cart Button */}
                 <button
-                  onClick={() => handleBuy(pkg)}
-                  className="mt-4 w-full rounded-xl py-3 text-sm font-bold text-white shadow-md transition-transform active:scale-[0.98]"
-                  style={{ background: pkg.color }}
+                  onClick={() => !inCart && handleAdd(pkg)}
+                  disabled={inCart}
+                  className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold transition-transform active:scale-[0.98] ${
+                    inCart
+                      ? "bg-green-100 text-green-700 cursor-default"
+                      : "text-white shadow-md"
+                  }`}
+                  style={!inCart ? { background: pkg.color } : undefined}
                 >
-                  {t.buyPackage[lang]} — {formatPrice(pkg.price)}
+                  <AnimatePresence mode="wait">
+                    {justAdded ? (
+                      <motion.span
+                        key="added"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="flex items-center gap-1"
+                      >
+                        <Check size={16} /> {t.addedToCart[lang]}
+                      </motion.span>
+                    ) : inCart ? (
+                      <motion.span key="incart" className="flex items-center gap-1">
+                        <Check size={16} /> {t.inCart[lang]}
+                      </motion.span>
+                    ) : (
+                      <motion.span key="add" className="flex items-center gap-1">
+                        <ShoppingCart size={16} /> {t.addToCart[lang]} — {formatPrice(pkg.price)}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
               </div>
             </motion.div>
@@ -143,70 +158,6 @@ export default function PackagesPage() {
       <p className="mt-4 text-center text-xs text-gray-400">
         {t.worthUp[lang]} {formatPrice(servicePackages[2].originalPrice)}
       </p>
-
-      {/* Purchase Modal */}
-      <AnimatePresence>
-        {showModal && selectedPkg && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 px-6"
-            onClick={() => !purchased && setShowModal(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-xl"
-            >
-              {purchased ? (
-                <>
-                  <div className="mb-3 text-4xl">🎉</div>
-                  <p className="font-display text-lg font-bold text-gray-900">
-                    {t.purchaseSuccess[lang]}
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    {t.purchaseSuccessDesc[lang]}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="font-display text-lg font-bold text-gray-900">
-                    {t.confirmPurchase[lang]}
-                  </p>
-                  <p className="mt-2 text-sm text-gray-500">
-                    {t.confirmPurchaseMsg[lang]}{" "}
-                    <span className="font-bold text-primary">
-                      {formatPrice(selectedPkg.price)}
-                    </span>
-                    {t.confirmPurchaseMsg2[lang]}
-                  </p>
-                  <p className="mt-1 text-xs text-gray-400">
-                    {selectedPkg.name[lang]}
-                  </p>
-                  <div className="mt-5 flex gap-3">
-                    <button
-                      onClick={() => setShowModal(false)}
-                      className="flex-1 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-500"
-                    >
-                      {t.cancel[lang]}
-                    </button>
-                    <button
-                      onClick={confirmPurchase}
-                      className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white active:scale-95"
-                      style={{ background: selectedPkg.color }}
-                    >
-                      {t.confirm[lang]}
-                    </button>
-                  </div>
-                </>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

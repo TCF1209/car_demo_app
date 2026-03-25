@@ -27,6 +27,8 @@ export const t = {
 
   // Products
   addToCart: { en: "Add to Cart", zh: "加入购物车" },
+  addedToCart: { en: "Added to Cart!", zh: "已加入购物车！" },
+  inCart: { en: "In Cart", zh: "已在购物车" },
   searchProducts: { en: "Search products...", zh: "搜索产品..." },
   earnPoints: { en: "Earn", zh: "可获得" },
 
